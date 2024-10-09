@@ -16,12 +16,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+private fun getWeatherDescriptionByCode(weatherCode: Int): String {
+    return when (weatherCode) {
+        0 -> "Солнечно"
+        1 -> "Переменная облачность"
+        2 -> "Пасмурно"
+        3 -> "Дождь"
+        4 -> "Гроза"
+        5 -> "Снег"
+        else -> "Неизвестная погода"
+    }
+}
+
 @Composable
 fun CurrentTemp(
-    temp: Int,
+    temp: Float,
     city: String,
-    current: String
+    current: Int
 ) {
+    val weatherDescription = getWeatherDescriptionByCode(current)
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -39,7 +53,7 @@ fun CurrentTemp(
             fontWeight = FontWeight.Light
         )
         Text(
-            text = current,
+            text = weatherDescription,
             fontSize = 26.sp,
             color = Color.White
         )

@@ -1,6 +1,5 @@
 package com.vondi.weatherapp.di
 
-import com.vondi.weatherapp.BuildConfig
 import com.vondi.weatherapp.data.remote.WeatherApi
 import dagger.Module
 import dagger.Provides

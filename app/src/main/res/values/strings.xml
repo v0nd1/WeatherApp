@@ -3,4 +3,6 @@
     <string name="refresh">Refresh</string>
     <string name="star">Star</string>
     <string name="calendar">Calendar</string>
+    <string name="sw">С-В</string>
+    <string name="wet">Влажность</string>
 </resources>

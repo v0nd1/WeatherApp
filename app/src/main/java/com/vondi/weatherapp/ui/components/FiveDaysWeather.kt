@@ -35,10 +35,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vondi.weatherapp.R
+import com.vondi.weatherapp.ui.components.util.Day
 
 @Composable
 fun FiveDaysWeather(
-
+    listDays: List<Day>
 ) {
     Box(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun FiveDaysWeather(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Start
                 ) {
                     Icon(
                         imageVector = Icons.Default.CalendarMonth,
@@ -71,24 +72,17 @@ fun FiveDaysWeather(
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
                         text = "Прогноз на 5 дней",
-                        fontSize = 16.sp,
+                        fontSize = 24.sp,
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Text(
-                    text = "Подробнее",
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
 
             }
 
-            val list = listOf(Day.Now, Day.Next, Day.SupNext, Day.SupNext2, Day.SupNext3)
             Spacer(modifier = Modifier.height(15.dp))
 
-            list.forEach {
+            listDays.forEach {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -135,45 +129,4 @@ fun FiveDaysWeather(
 
 
     }
-}
-
-
-private sealed class Day(
-    val day: String,
-    val icon: Int,
-    val min: Int,
-    val max: Int
-) {
-    data object Now : Day(
-        day = "Сегодня",
-        icon = R.drawable.rainy,
-        min = 6,
-        max = 12
-    )
-
-    data object Next : Day(
-        day = "Завтра",
-        icon = R.drawable.sunny,
-        min = 4,
-        max = 8
-    )
-
-    data object SupNext : Day(
-        day = "Понедельник",
-        icon = R.drawable.sunny_snow,
-        min = 6,
-        max = 11
-    )
-    data object SupNext2 : Day(
-        day = "Вторник",
-        icon = R.drawable.rainy,
-        min = 6,
-        max = 11
-    )
-    data object SupNext3 : Day(
-        day = "Среда",
-        icon = R.drawable.sunny,
-        min = 6,
-        max = 11
-    )
 }

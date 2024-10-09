@@ -1,5 +1,7 @@
 package com.vondi.weatherapp.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,13 +29,14 @@ import com.vondi.weatherapp.R
 import com.vondi.weatherapp.ui.components.CurrentTemp
 import com.vondi.weatherapp.ui.components.FiveDaysWeather
 import com.vondi.weatherapp.ui.components.WeatherSurface
+import com.vondi.weatherapp.ui.components.WetSpeedCards
+import com.vondi.weatherapp.ui.components.util.createDaysList
 import com.vondi.weatherapp.ui.viewmodels.WeatherViewModel
 
 @Composable
 fun WeatherScreen(
     viewModel: WeatherViewModel
 ) {
-
     val weatherData by viewModel.weatherData.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
@@ -41,79 +44,99 @@ fun WeatherScreen(
         viewModel.fetchWeather(lat = 52.52, lon = 37.0)
     }
 
-    WeatherSurface {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 40.dp)
-                .padding(horizontal = 10.dp),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = stringResource(R.string.refresh),
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(30.dp)
-                )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Отображение текущей погоды
+        Text(
+            text = "Текущая погода",
+        )
 
-            }
-            Spacer(modifier = Modifier.height(80.dp))
-            CurrentTemp(temp = 10, city = "Москва", current = "Облачно")
-            Spacer(modifier = Modifier.height(40.dp))
-            FiveDaysWeather()
+        Text(
+            text = "Температура: ${weatherData.current.temperature_2m}°C",
+        )
 
+        Text(
+            text = "Влажность: ${weatherData.current.relative_humidity_2m}%", // Изменено на relative_humidity_2m
+        )
+
+        Text(
+            text = "Скорость ветра: ${weatherData.current.wind_speed_10m} м/с", // Изменено на wind_speed_10m
+        )
+
+        Text(
+            text = "Код погоды: ${weatherData.current.weather_code}",
+        )
 
 
-//            if (weatherData != null) {
-//                // Текущая температура
-//                Text(text = "Текущая температура (°C): ${weatherData?.current?.temperature_2m}")
-//
-//                // Относительная влажность
-//                Text(text = "Относительная влажность (%): ${weatherData?.current?.relative_humidity_2m}")
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                // Дневные данные
-//                Text(text = "Дневные максимумы и минимумы:")
-//                weatherData?.daily?.time?.forEachIndexed { index, time ->
-//                    Text(text = "$time - Макс: ${weatherData!!.daily.temperature_2m_max[index]}°C, Мин: ${weatherData!!.daily.temperature_2m_min[index]}°C")
-//                }
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                // Ощущаемая температура
-//                Text(text = "Ощущаемая температура (макс и мин):")
-//                weatherData?.daily?.apparent_temperature_max?.forEachIndexed { index, apparentMax ->
-//                    Text(text = "Макс: $apparentMax°C (день ${weatherData!!.daily.time[index]})")
-//                }
-//                weatherData?.daily?.apparent_temperature_min?.forEachIndexed { index, apparentMin ->
-//                    Text(text = "Мин: $apparentMin°C (день ${weatherData!!.daily.time[index]})")
-//                }
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                // Время восхода и заката
-//                Text(text = "Время восхода и заката:")
-//                weatherData?.daily?.sunrise?.forEachIndexed { index, sunriseTime ->
-//                    Text(text = "Восход: $sunriseTime (день ${weatherData!!.daily.time[index]})")
-//                }
-//                weatherData?.daily?.sunset?.forEachIndexed { index, sunsetTime ->
-//                    Text(text = "Закат: $sunsetTime (день ${weatherData!!.daily.time[index]})")
-//                }
-//            } else {
-//                errorMessage?.let { message ->
-//                    Text(text = "Ошибка: $message")
-//                }
-//            }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "Прогноз на несколько дней",
+        )
+
+        for (i in weatherData.daily.temperature_2m_max.indices) {
+            Text(
+                text = "День ${i + 1}: " +
+                        "Макс. температура: ${weatherData.daily.temperature_2m_max[i]}°C, " +
+                        "Мин. температура: ${weatherData.daily.temperature_2m_min[i]}°C, " +
+                        "Влажность: ${weatherData.daily.relative_humidity_2m[i]}%, " + // Обновлено на relative_humidity_2m
+                        "Код погоды: ${weatherData.daily.weather_code[i]}",
+            )
         }
+
     }
 
-
-
+//    if (weatherData != null) {
+//        val daysList = createDaysList(
+//            temperatureMaxList = weatherData!!.daily.temperature_2m_max,
+//            temperatureMinList = weatherData!!.daily.temperature_2m_min,
+//            weatherCodeList = weatherData!!.daily.weathercode,
+//        )
+//
+//        WeatherSurface {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(top = 40.dp)
+//                    .padding(horizontal = 10.dp),
+//            ) {
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.Start,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Default.Refresh,
+//                        contentDescription = stringResource(R.string.refresh),
+//                        tint = Color.White,
+//                        modifier = Modifier
+//                            .size(30.dp)
+//                    )
+//                }
+//                Spacer(modifier = Modifier.height(80.dp))
+//                CurrentTemp(
+//                    temp = weatherData!!.current_weather.temperature,
+//                    city = "Москва",
+//                    current = weatherData!!.current_weather.weathercode
+//                )
+//                Spacer(modifier = Modifier.height(40.dp))
+//                WetSpeedCards(
+//                    wet = weatherData!!.current_weather.relative_humidity,
+//                    speed = weatherData!!.current_weather.windspeed
+//                )
+//                Spacer(modifier = Modifier.height(40.dp))
+//                FiveDaysWeather(
+//                    listDays = daysList
+//                )
+//            }
+//        }
+//    } else {
+//        errorMessage?.let { message ->
+//            Text(text = "Ошибка: $message")
+//        }
+//    }
 }
