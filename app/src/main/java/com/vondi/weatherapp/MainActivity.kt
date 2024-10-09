@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import com.vondi.weatherapp.ui.navigation.NavGraph
 import com.vondi.weatherapp.ui.screens.WeatherScreen
 
 import com.vondi.weatherapp.ui.theme.WeatherAppTheme
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
-                WeatherScreen(viewModel = viewModel)
+                NavGraph(viewModel = viewModel)
             }
         }
     }

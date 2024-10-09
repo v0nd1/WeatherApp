@@ -6,4 +6,5 @@
     <string name="sw">С-В</string>
     <string name="wet">Влажность</string>
     <string name="wekend_weather">Прогноз на неделю</string>
+    <string name="selected">Selected</string>
 </resources>

@@ -69,7 +69,7 @@ fun WetSpeedCards(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "${speed.toInt()} км/с",
+                    text = "${speed.toInt()} км/ч",
                     fontSize = 32.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
