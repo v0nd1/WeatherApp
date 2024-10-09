@@ -21,8 +21,8 @@ import com.vondi.weatherapp.R
 
 @Composable
 fun WetSpeedCards(
-    wet: Float,
-    speed: Float
+    wet: Int,
+    speed: Double
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -69,7 +69,7 @@ fun WetSpeedCards(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "$speed м/с",
+                    text = "${speed.toInt()} км/с",
                     fontSize = 32.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold

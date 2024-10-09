@@ -1,6 +1,6 @@
 package com.vondi.weatherapp.data.remote
 
-import com.vondi.weatherapp.data.responses.WeatherResponse
+import com.vondi.weatherapp.data.model.responses.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,7 +16,6 @@ interface WeatherApi {
         @Query("longitude") longitude: Double,
         @Query("current") current: String,
         @Query("daily") daily: String,
-        @Query("wind_speed_unit") windSpeedUnit: String = "ms",
         @Query("timezone") timezone: String = "GMT"
     ): WeatherResponse
 }

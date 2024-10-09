@@ -30,7 +30,7 @@ private fun getWeatherDescriptionByCode(weatherCode: Int): String {
 
 @Composable
 fun CurrentTemp(
-    temp: Float,
+    temp: Double,
     city: String,
     current: Int
 ) {
@@ -47,7 +47,7 @@ fun CurrentTemp(
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "$temp°",
+            text = "${temp.toInt()}°",
             fontSize = 130.sp,
             color = Color.White,
             fontWeight = FontWeight.Light

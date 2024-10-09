@@ -8,8 +8,8 @@ import java.util.Locale
 data class Day(
     val day: String,
     val icon: Int,
-    val min: Float,
-    val max: Float
+    val min: Double,
+    val max: Double
 )
 
 fun getWeatherIconByCode(weatherCode: Int): Int {
@@ -25,8 +25,8 @@ fun getWeatherIconByCode(weatherCode: Int): Int {
 }
 
 fun createDaysList(
-    temperatureMaxList: List<Float>,
-    temperatureMinList: List<Float>,
+    temperatureMaxList: List<Double>,
+    temperatureMinList: List<Double>,
     weatherCodeList: List<Int>
 ): List<Day> {
     val daysList = mutableListOf<Day>()
@@ -41,7 +41,8 @@ fun createDaysList(
             1 -> "Завтра"
             else -> {
                 val dayOfWeekFormat = SimpleDateFormat("EEEE", Locale("ru"))
-                dayOfWeekFormat.format(calendar.time)
+                val dayOfWeek = dayOfWeekFormat.format(calendar.time)
+                dayOfWeek.replaceFirstChar { it.uppercase() }
             }
         }
         val weatherIcon = getWeatherIconByCode(weatherCodeList[i])
